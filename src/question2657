@@ -1,0 +1,18 @@
+class Solution {
+    public int[] findThePrefixCommonArray(int[] A, int[] B) {
+        int n = A.length; //length size storing in variable
+
+        Set<Integer> set = new HashSet<>(); // creating a new set for integer
+
+        int[] C = new int[n]; // creating a new array of same size n
+
+        for(int i=0; i<n; i++){ // loop simply iterating every value of array
+
+            set.add(A[i]); // adding value of A in set which is not present
+            set.add(B[i]); // same for B
+
+            C[i] = 2*(i+1) - set.size(); // using this formula for count of common prefixes
+        }
+    return C;
+    }
+}

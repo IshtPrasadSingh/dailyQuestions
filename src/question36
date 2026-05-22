@@ -1,0 +1,53 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+
+        int N = 9; //9x9 sudoku
+
+        //first we are going to create array of hashsets
+        //Use hashset to record the status
+        HashSet<Character>[] rows = new HashSet[N];
+        HashSet<Character>[] cols = new HashSet[N];
+        HashSet<Character>[] boxes = new HashSet[N];
+
+        for(int r=0 ; r<N ; r++){ //initiating the hashset for every single one of them by iterating over all the values
+
+        // after iterating we will initiate the hashset to accept charcter as the input
+            rows[r] = new HashSet<Character>();
+            cols[r] = new HashSet<Character>();
+            boxes[r] = new HashSet<Character>();
+        }
+        for (int r=0 ; r<N ; r++){
+// two loops to iterate over the given input matrix this one to iterate over the row
+            for(int c = 0; c < N; c++){ // for column
+                char val = board[r][c]; // determining what is the current char at any particular position or cell
+
+                //check if position is filled with number
+                if (val == '.'){
+                    continue;  // if no value found then continue and move on to next limit
+                }
+                // if found then these two things
+                //check the row .......particular row hashset is this value already present if present then return false
+                if(rows[r].contains(val)){
+                    return false;
+                }
+                rows[r].add(val); // if not present then add the value to that row hashset
+
+                //same thing to column too if present then return false if not then  add the value to that subsequent colummn hashset
+                if(cols[c].contains(val)){
+                    return false;
+                }
+                cols[c].add(val);
+
+
+
+                //checking the box by formula and if present then return the false if not then return the subsequent correct value
+                int idx = (r/3) * 3 + (c/3);
+                if (boxes[idx].contains(val)){
+                    return false;
+                }
+                boxes[idx].add(val);
+                            }
+        }
+        return true; //no place where the sudoku was invalid
+    }
+}
