@@ -1,0 +1,32 @@
+class Solution {
+    public boolean canReach(String s, int minJump, int maxJump) {
+
+        int n = s.length();
+        int[] arr = new int[n];
+
+        // if last position is blocked, impossible
+        if (s.charAt(n - 1) == '1')
+            return false;
+
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            count += arr[i];
+
+            // reachable if:
+            // i == 0 (starting point)
+            // OR current index is '0' and within active reachable range
+            if (i == 0 || (s.charAt(i) == '0' && count > 0)) {
+
+                if (i + minJump < n)
+                    arr[i + minJump] += 1;
+
+                if (i + maxJump + 1 < n)
+                    arr[i + maxJump + 1] -= 1;
+            }
+        }
+
+        return count > 0;
+    }
+}
