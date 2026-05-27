@@ -1,0 +1,25 @@
+class Solution {
+    public int numberOfSpecialChars(String word) {
+        Set<Character> s = new HashSet<>();
+
+        // add all characters into set
+        for(char c : word.toCharArray()){
+            s.add(c);
+        }
+
+        int ans = 0;
+
+        // check every lowercase letter
+        for(char c = 'a'; c <= 'z'; c++){
+
+            // convert lowercase to uppercase
+            char upper = (char)(c - 'a' + 'A');
+
+            if(s.contains(c) && s.contains(upper)){
+                ans++;
+            }
+        }
+
+        return ans;
+    }
+}
