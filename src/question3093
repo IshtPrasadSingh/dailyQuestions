@@ -1,0 +1,82 @@
+class Solution {
+    public int[] stringIndices(String[] wordsContainer, String[] wordsQuery) {
+
+        Trie trie = new Trie();
+
+        for (int i = 0; i < wordsContainer.length; i++) {
+            trie.insert(wordsContainer[i], i);
+        }
+
+        int[] ans = new int[wordsQuery.length];
+
+        for (int i = 0; i < wordsQuery.length; i++) {
+            ans[i] = trie.search(wordsQuery[i]);
+        }
+
+        return ans;
+    }
+}
+
+class TrieNode {
+    int index;
+    int len;
+    TrieNode[] children;
+
+    TrieNode() {
+        index = -1;
+        len = Integer.MAX_VALUE;
+        children = new TrieNode[26];
+    }
+}
+
+class Trie {
+    TrieNode root;
+
+    Trie() {
+        root = new TrieNode();
+    }
+
+    void insert(String word, int ind) {
+        TrieNode node = root;
+        int n = word.length();
+
+        // Update root (empty suffix case)
+        if (n < root.len || (n == root.len && ind < root.index)) {
+            root.len = n;
+            root.index = ind;
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            int ch = word.charAt(i) - 'a';
+
+            if (node.children[ch] == null) {
+                node.children[ch] = new TrieNode();
+            }
+
+            node = node.children[ch];
+
+            if (n < node.len || (n == node.len && ind < node.index)) {
+                node.len = n;
+                node.index = ind;
+            }
+        }
+    }
+
+    int search(String query) {
+        TrieNode node = root;
+        int ans = root.index;
+
+        for (int i = query.length() - 1; i >= 0; i--) {
+            int ch = query.charAt(i) - 'a';
+
+            if (node.children[ch] == null) {
+                break;
+            }
+
+            node = node.children[ch];
+            ans = node.index;
+        }
+
+        return ans;
+    }
+}
